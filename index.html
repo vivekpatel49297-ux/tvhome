@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>if(window.Android){document.documentElement.classList.add("tv");document.documentElement.setAttribute("data-theme","dark")}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TV launcher preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+@property --g{syntax:'<color>';inherits:false;initial-value:#333}
+:root{--page:#f4f4f2;--ink:#161616;--muted:#5b5b5b;--chip:#e3e3df;--on:#161616;--onink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#121214;--ink:#f1f1f1;--muted:#a3a3a8;--chip:#26262a;--on:#f1f1f1;--onink:#111}}
+:root[data-theme="dark"]{--page:#121214;--ink:#f1f1f1;--muted:#a3a3a8;--chip:#26262a;--on:#f1f1f1;--onink:#111}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;padding:20px 16px 32px;background:var(--page);color:var(--ink);font-family:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif}
+.page{max-width:1280px;margin:0 auto}
+h1{font-size:22px;font-weight:600;margin:0 0 4px}
+.sub{margin:0 0 16px;color:var(--muted);font-size:15px;line-height:1.4}
+#wrap{position:relative;width:100%;background:#000;border-radius:16px;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:#000;color:#fff;overflow:hidden;user-select:none;
+--tw:351px;--th:197px;--n:4}
+.view{position:absolute;inset:0;overflow:hidden;-webkit-mask-image:linear-gradient(transparent 0,#000 230px);mask-image:linear-gradient(transparent 0,#000 230px)}
+#scroller{position:absolute;left:0;top:0;width:1920px;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.hero{position:relative;height:140px;margin-left:210px}
+.glow{position:absolute;left:-220px;top:-170px;width:1200px;height:460px;background:radial-gradient(closest-side,var(--g),transparent);opacity:.5;transition:--g .6s;z-index:0}
+#hn{position:relative;margin:0;font-size:96px;line-height:140px;font-weight:200;letter-spacing:-.02em;white-space:nowrap}
+.band{margin-left:174px;width:1572px;padding:36px 36px 96px;border-radius:44px;background:rgba(255,255,255,.075)}
+#dock,#grid{display:grid;grid-template-columns:repeat(var(--n),var(--tw));gap:32px}
+#grid{margin:70px 0 0 210px;row-gap:100px;padding-bottom:600px}
+.tile{position:relative;z-index:1;height:var(--th);cursor:pointer}
+.art{width:100%;height:100%;border-radius:calc(var(--th)*.09);display:flex;align-items:center;justify-content:center;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.art b{font-weight:600;font-size:calc(var(--tw)*.12);letter-spacing:-.01em;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.tile.f .art{transform:scale(1.07)}
+.nm{position:absolute;left:-10px;right:-10px;top:calc(var(--th) + 22px);text-align:center;font-size:28px;font-weight:300;opacity:0;transition:opacity .2s;white-space:nowrap}
+.tile.f .nm{opacity:1}
+#hl{position:absolute;z-index:0;border-radius:34px;background:rgba(255,255,255,.15);box-shadow:inset 0 0 0 2px rgba(255,255,255,.22);opacity:0;
+transition:left .42s cubic-bezier(.34,1.45,.55,1),top .42s cubic-bezier(.34,1.45,.55,1),width .3s,height .3s,opacity .2s}
+#bar{position:absolute;inset:0;pointer-events:none;transition:opacity .3s}
+.hd{position:absolute;left:210px;top:56px}
+.hd .g{font-size:34px;font-weight:300;opacity:.7}
+.hd .c{font-size:172px;line-height:1.02;font-weight:200;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.hd .d{font-size:36px;font-weight:300;opacity:.7;margin-top:4px}
+.pills{position:absolute;right:210px;top:66px;display:flex;gap:18px}
+.pw{position:relative}
+.pill{display:flex;align-items:center;gap:12px;height:66px;padding:0 30px 0 24px;border-radius:33px;background:rgba(255,255,255,.13);font-size:27px;font-weight:300;transition:transform .25s,background .2s,color .2s}
+.pill svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pill.f{background:rgba(255,255,255,.93);color:#000;transform:scale(1.06)}
+.menu{position:absolute;top:80px;left:0;min-width:250px;padding:10px;border-radius:26px;background:#232326;box-shadow:inset 0 0 0 2px rgba(255,255,255,.14);opacity:0;transform:translateY(-8px);transition:opacity .2s,transform .2s}
+.menu.open{opacity:1;transform:none}
+.menu div{padding:13px 22px;border-radius:18px;font-size:26px;font-weight:300}
+.menu div.f{background:rgba(255,255,255,.93);color:#000}
+#toast{position:absolute;left:50%;top:78px;transform:translateX(-50%);padding:14px 32px;border-radius:30px;background:rgba(255,255,255,.93);color:#000;font-size:26px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1}
+.ctl{display:flex;flex-wrap:wrap;gap:20px 36px;align-items:center;margin-top:18px}
+.lab{font-size:15px;color:var(--muted);margin-bottom:8px}
+.seg{display:flex;gap:6px}
+.seg button,.rem button{font:inherit;font-size:17px;border:0;border-radius:12px;background:var(--chip);color:var(--ink);min-width:48px;height:44px;cursor:pointer}
+.seg button.on{background:var(--on);color:var(--onink)}
+.rem{display:grid;grid-template-columns:repeat(3,48px);gap:6px}
+.rem .u{grid-column:2}.rem .l{grid-column:1;grid-row:2}.rem .o{grid-column:2;grid-row:2}.rem .r{grid-column:3;grid-row:2}.rem .dn{grid-column:2;grid-row:3}
+.hint{max-width:420px;color:var(--muted);font-size:15px;line-height:1.5}
+button:focus-visible{outline:3px solid #4d8dff;outline-offset:2px}
+html.tv,html.tv body{background:#000;margin:0;padding:0;height:100%;overflow:hidden}
+html.tv .page{max-width:none;margin:0}
+html.tv .page>h1,html.tv .sub,html.tv .ctl{display:none}
+html.tv #wrap{position:fixed;left:0;top:50%;transform:translateY(-50%);width:100vw;border-radius:0}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Home screen preview</h1>
+<p class="sub">Click the screen or press a key, then use the arrow keys. Enter opens, Esc goes back.</p>
+<div id="wrap">
+<div id="stage">
+<div class="view"><div id="scroller">
+<div id="spacer"></div>
+<div class="hero"><i class="glow" id="glow"></i><h1 id="hn"></h1></div>
+<div class="band"><div id="dock"></div></div>
+<div id="grid"></div>
+<div id="hl"></div>
+</div></div>
+<div id="bar">
+<div class="hd"><div class="g" id="gr"></div><div class="c" id="clk"></div><div class="d" id="dt"></div></div>
+<div class="pills">
+<div class="pw"><div class="pill"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Inputs</div><div class="menu" id="menu"></div></div>
+<div class="pw"><div class="pill"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.2" r=".6"/></svg>Wi-Fi</div></div>
+<div class="pw"><div class="pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 3h-4l-.4 2.4A7 7 0 0 0 7.4 6.7l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 21h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></svg>Settings</div></div>
+</div></div>
+<div id="toast"></div>
+</div>
+</div>
+<div class="ctl">
+<div><div class="lab">Dock slots</div><div class="seg" id="seg"></div></div>
+<div><div class="lab">Remote</div><div class="rem" id="rem">
+<button class="u" data-k="up">▲</button><button class="l" data-k="left">◀</button><button class="o" data-k="ok">OK</button><button class="r" data-k="right">▶</button><button class="dn" data-k="down">▼</button></div></div>
+<p class="hint">The dock holds your favourite apps and the grid below has the rest, with the same number of columns. Apps here are placeholders.</p>
+</div>
+</div>
+<script>
+let APPS=[["Netflix","#e50914","#6b0207"],["YouTube","#ff3b30","#82110c"],["Prime Video","#1a98ff","#0a4a85"],["Disney+","#2a4bd7","#10206b"],["Spotify","#1ed760","#0a612a"],["Plex","#e5a00d","#7a5200"],["Kodi","#17b2e7","#0a5c78"],["Browser","#8e5cf5","#41208a"],["Music","#ff4f79","#8a1e3c"],["Photos","#ff9f0a","#a64f00"],["Files","#5ac8fa","#1f6f94"],["Games","#30d158","#116b2d"],["Kids","#ffd60a","#8a6d00"],["Sports","#ff6b35","#8a2d0e"],["News","#9aa0a6","#3c4043"],["Weather","#4fa3ff","#1c4f8a"],["Fitness","#f0425f","#7a1426"],["Cast","#6c7bff","#2a3382"]];
+let INP=["HDMI 1","HDMI 2","HDMI 3","AV","Live TV"],INPID=[];const TV=!!window.Android;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=s=>document.querySelector(s),wrap=$('#wrap'),stage=$('#stage'),sc=$('#scroller'),hl=$('#hl'),dock=$('#dock'),grid=$('#grid'),menu=$('#menu');
+const pills=[...document.querySelectorAll('.pill')];
+let n=window.Android?6:4,tw=351,th=197,dEls=[],gEls=[],tt;
+const S={z:'dock',top:0,dock:0,gr:0,gc:0,menu:false,mi:0};
+let mEls=[];function buildMenu(){menu.innerHTML=INP.map(t=>`<div>${esc(t)}</div>`).join('');mEls=[...menu.children]}buildMenu();
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1800)}
+function build(){
+  tw=(1500-(n-1)*32)/n;th=tw*9/16;
+  stage.style.setProperty('--tw',tw+'px');stage.style.setProperty('--th',th+'px');stage.style.setProperty('--n',n);
+  dock.innerHTML='';grid.innerHTML='';dEls=[];gEls=[];
+  APPS.forEach((a,i)=>{
+    const t=document.createElement('div');t.className='tile';
+    const bg=a[4]?`background:#111 url(${a[4]}) center/cover no-repeat`:`background:linear-gradient(135deg,${a[1]},${a[2]})`;
+    t.innerHTML=`<div class="art" style="${bg}">${a[4]?'':'<b>'+esc(a[0])+'</b>'}</div><div class="nm">${esc(a[0])}</div>`;
+    const d=i<n;(d?dock:grid).appendChild(t);(d?dEls:gEls).push(t);
+    t.onclick=()=>{if(d){S.z='dock';S.dock=i}else{const k=i-n;S.z='grid';S.gr=Math.floor(k/n);S.gc=k%n}S.menu=false;render();open(a)};
+  });
+  S.dock=Math.min(S.dock,n-1);S.z='dock';S.gr=0;S.gc=0;S.menu=false;
+  $('#spacer').style.height=Math.max(0,1010-140-dock.parentElement.offsetHeight)+'px';
+  render();
+}
+function render(){
+  document.querySelectorAll('.f').forEach(e=>e.classList.remove('f'));
+  pills.forEach((p,i)=>p.classList.toggle('f',S.z==='top'&&i===S.top));
+  menu.classList.toggle('open',S.menu);
+  if(S.menu)mEls[S.mi].classList.add('f');
+  const el=S.z==='dock'?dEls[S.dock]:S.z==='grid'?gEls[S.gr*n+S.gc]:null;
+  if(el){el.classList.add('f');hl.style.cssText=`opacity:1;left:${el.offsetLeft-16}px;top:${el.offsetTop-16}px;width:${tw+32}px;height:${th+86}px`}else hl.style.opacity=0;
+  const g=S.z==='grid';
+  sc.style.transform=`translateY(${g?-(el.offsetTop-300):0}px)`;
+  $('#bar').style.opacity=g?0:1;
+  const a=APPS[S.dock];$('#hn').textContent=a[0];$('#glow').style.setProperty('--g',a[1]);
+}
+function open(a){if(TV&&a[3])Android.launch(a[3]);else toast('Opening '+a[0])}
+function go(d){
+  if(S.menu){
+    if(d==='up')S.mi=Math.max(0,S.mi-1);
+    else if(d==='down')S.mi=Math.min(INP.length-1,S.mi+1);
+    else if(d==='ok'){if(TV&&INPID[S.mi])Android.openInput(INPID[S.mi]);else toast('Switching to '+INP[S.mi]);S.menu=false}
+    else if(d==='back')S.menu=false;
+    return render();
+  }
+  const dl=Math.min(n,APPS.length),m=Math.max(0,APPS.length-n),rows=Math.ceil(m/n),len=r=>Math.min(n,m-r*n);
+  if(d==='back'){if(S.z==='grid')S.dock=Math.min(S.gc,n-1);S.z='dock';return render()}
+  if(S.z==='top'){
+    if(d==='left')S.top=Math.max(0,S.top-1);
+    else if(d==='right')S.top=Math.min(2,S.top+1);
+    else if(d==='down')S.z='dock';
+    else if(d==='ok'){if(S.top===0){if(INP.length){S.menu=true;S.mi=0}else toast('No inputs found')}else if(TV){if(S.top===1)Android.openWifi();else Android.openSettings()}else toast(S.top===1?'Connected to Home 5G':'Opening Settings')}
+  }else if(S.z==='dock'){
+    if(d==='left')S.dock=Math.max(0,S.dock-1);
+    else if(d==='right')S.dock=Math.min(dl-1,S.dock+1);
+    else if(d==='up')S.z='top';
+    else if(d==='down'&&m>0){S.z='grid';S.gr=0;S.gc=Math.min(S.dock,len(0)-1)}
+    else if(d==='ok')open(APPS[S.dock]);
+  }else{
+    if(d==='left')S.gc=Math.max(0,S.gc-1);
+    else if(d==='right')S.gc=Math.min(len(S.gr)-1,S.gc+1);
+    else if(d==='up'){if(S.gr===0){S.z='dock';S.dock=Math.min(S.gc,n-1)}else S.gr--}
+    else if(d==='down'&&S.gr<rows-1){S.gr++;S.gc=Math.min(S.gc,len(S.gr)-1)}
+    else if(d==='ok')open(APPS[n+S.gr*n+S.gc]);
+  }
+  render();
+}
+const KEYS={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',Enter:'ok',' ':'ok',Escape:'back',Backspace:'back'};
+window.addEventListener('keydown',e=>{const d=KEYS[e.key];if(!d||e.metaKey||e.ctrlKey||e.altKey)return;if(e.target.closest&&e.target.closest('button')&&(d==='ok'))return;e.preventDefault();go(d)});
+$('#rem').onclick=e=>{const k=e.target.dataset.k;if(k)go(k)};
+const seg=$('#seg');
+[4,5,6,7].forEach(v=>{const b=document.createElement('button');b.textContent=v;b.onclick=()=>{n=v;[...seg.children].forEach(c=>c.classList.toggle('on',c===b));build()};if(v===n)b.className='on';seg.appendChild(b)});
+pills.forEach((p,i)=>p.onclick=()=>{S.z='top';S.top=i;S.menu=false;render();go('ok')});
+function clock(){const d=new Date(),h=d.getHours();
+  $('#gr').textContent=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+  $('#clk').textContent=(h%12||12)+':'+String(d.getMinutes()).padStart(2,'0');
+  $('#dt').textContent=d.toLocaleDateString([], {weekday:'long',month:'long',day:'numeric'})}
+function fit(){const s=wrap.clientWidth/1920;stage.style.transform=`scale(${s})`;wrap.style.height=1080*s+'px'}
+window.addEventListener('resize',fit);
+function setApps(json){try{const l=JSON.parse(json);if(!l.length)return;
+  APPS=l.map(x=>{let h=0;for(const c of x.p)h=(h*31+c.charCodeAt(0))>>>0;const hue=h%360;
+    return [x.n,`hsl(${hue},70%,52%)`,`hsl(${hue},70%,22%)`,x.p,x.b||'']});build()}catch(e){}}
+function setInputs(json){try{const l=JSON.parse(json);INP=l.map(x=>x.n);INPID=l.map(x=>x.i);buildMenu()}catch(e){}}
+function goHome(){S.z='dock';S.dock=0;S.menu=false;render()}
+clock();setInterval(clock,30000);fit();
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(build);
+build();
+</script>
+</body>
+</html>
